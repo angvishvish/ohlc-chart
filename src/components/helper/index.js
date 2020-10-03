@@ -44,6 +44,7 @@ export const CreateOHLCCharts = () => {
     chart.dateFormatter.inputDateFormat = "YYYY-MM-dd";
 
     dateAxis.renderer.grid.template.location = 0;
+    dateAxis.dateFormats.setKey("day", "MMMM-YYYY");
 
     series.minBulletDistance = 20;
     series.dataFields.dateX = "date";
@@ -59,8 +60,6 @@ export const CreateOHLCCharts = () => {
     series.strokeWidth = 2;
 
     chart.cursor = new am4charts.XYCursor();
-
-    // a separate series for scrollbar
 
     lineSeries.dataFields.dateX = "date";
     lineSeries.dataFields.valueY = "close";

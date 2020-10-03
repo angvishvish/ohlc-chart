@@ -54,7 +54,7 @@ class OHLCChart extends Component {
         return (
             <React.Fragment>
                 {this.state.isLoading ? <h3 className="flex-center">Loading Updated Chart...</h3> : null}
-                <div id="chartDiv" style={{ width: "100%", height: "calc(100vh - 250px)" }}></div>
+                <div id="chartDiv" style={{ width: "100%", height: "calc(100vh - 150px)" }}></div>
             </React.Fragment>
         );
     }
