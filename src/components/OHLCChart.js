@@ -26,12 +26,16 @@ class OHLCChart extends Component {
         Axios.get(`/historical?interval=9`)
             .then(res => {
                 this.createChart(res.data);
+            })
+            .catch(err => {
+                this.createChart(JSON.parse(localStorage.getItem('ohlcChartData') || '[]'));
             });
     }
 
     createChart = (chartData) => {
         this.disposeChart();
         this.chart = CreateOHLCCharts();
+        localStorage.setItem('ohlcChartData', JSON.stringify(chartData));
         this.chart.addData(CreateChartData(chartData));
         this.chart.events.on("shown", () => {
             this.setState({

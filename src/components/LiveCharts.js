@@ -16,7 +16,7 @@ class LiveCharts extends Component {
         };
         this.chart = CreateOHLCCharts([]);
     }
-    
+
     componentDidMount = () => {
         this.getChartData('?interval=1');
     }
@@ -24,9 +24,12 @@ class LiveCharts extends Component {
     getChartData = (intervalQuery) => {
         this.clearInterval();
         Axios.get(`/historical${intervalQuery}`)
-        .then(res => {
-            this.createChart(res.data);
-        });
+            .then(res => {
+                this.createChart(res.data);
+            })
+            .catch(err => {
+                this.createChart(JSON.parse(localStorage.getItem(`liveChartData${this.state.interval}`) || '[]'));
+            });
     }
 
     clearInterval = () => {
@@ -38,6 +41,7 @@ class LiveCharts extends Component {
     createChart = (chartData) => {
         this.disposeChart();
         this.chart = CreateOHLCCharts();
+        localStorage.setItem(`liveChartData${this.state.interval}`, JSON.stringify(chartData));
         const liveChartData = CreateChartData(chartData);
         let index = 0;
         const liveChartIntervalId = setInterval(() => {
@@ -50,7 +54,7 @@ class LiveCharts extends Component {
         this.setState({
             liveChartIntervalId
         })
-        this.chart.events.on("ready", () =>{
+        this.chart.events.on("ready", () => {
             this.setState({
                 isLoading: false
             });
@@ -76,7 +80,10 @@ class LiveCharts extends Component {
                 <span>Filter Interval results as per your requirement: </span>
                 <DropDownMenu
                     interval={this.state.interval}
-                    handleInterval={(interval) => this.getChartData(`?interval=${interval}`, true)} />
+                    handleInterval={(interval) => {
+                        this.setState({ interval });
+                        this.getChartData(`?interval=${interval}`, true)
+                    }} />
                 {this.state.isLoading ? <h3 className="flex-center">Loading Updated Chart...</h3> : null}
                 <div id="chartDiv" style={{ width: "100%", height: "400px" }}></div>
             </React.Fragment>
