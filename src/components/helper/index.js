@@ -1,4 +1,3 @@
-import moment from 'moment';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
@@ -13,12 +12,20 @@ const RoundOffFloat = (value = 0) => {
     return parseFloat(value).toFixed(2);
 }
 
+const FormatDate = (epocTimestamp) => {
+    const date = new Date(parseInt(epocTimestamp));
+    const year = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date);
+    const month = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(date);
+    const day = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date);
+    return `${year}-${month}-${day}`;
+}
+
 export const CreateChartData = (chartData = []) => {
     const filteredArr = new Set(chartData);
     const FinalData = Array.from(filteredArr).reverse().map((data, index) => {
         const dataSplit = data.split(',');
         const dataObj = {
-            date: moment(parseInt(dataSplit[0])).format('YYYY-MM-DD'),
+            date: FormatDate(dataSplit[0]),
             open: RoundOffFloat(dataSplit[1]),
             high: RoundOffFloat(dataSplit[2]),
             low: RoundOffFloat(dataSplit[3]),
@@ -38,7 +45,7 @@ export const CreateOHLCCharts = () => {
     const lineSeries = chart.series.push(new am4charts.LineSeries());
     const scrollbarX = new am4charts.XYChartScrollbar();
 
-    
+
     chart.paddingRight = 20;
 
     chart.dateFormatter.inputDateFormat = "YYYY-MM-dd";

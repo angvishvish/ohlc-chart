@@ -21,7 +21,7 @@ class DropDownMenu extends Component {
 
     render() {
         return (
-            <Menu
+            <Menu compact
                 key={this.props.interval}>
                 <Dropdown
                     options={createOptions()}

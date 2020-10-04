@@ -23,16 +23,17 @@ class OHLCChart extends Component {
         this.setState({
             isLoading: true
         });
-        Axios.get(`/historical?interval=9`).then(res => {
-            this.createChart(res.data);
-        });
+        Axios.get(`/historical?interval=9`)
+            .then(res => {
+                this.createChart(res.data);
+            });
     }
 
     createChart = (chartData) => {
         this.disposeChart();
         this.chart = CreateOHLCCharts();
         this.chart.addData(CreateChartData(chartData));
-        this.chart.events.on("shown", () =>{
+        this.chart.events.on("shown", () => {
             this.setState({
                 isLoading: false
             });
@@ -53,8 +54,9 @@ class OHLCChart extends Component {
     render() {
         return (
             <React.Fragment>
+                {this.error ? <h3 className="flex-center has-error">{this.error}</h3> : null}
                 {this.state.isLoading ? <h3 className="flex-center">Loading Updated Chart...</h3> : null}
-                <div id="chartDiv" style={{ width: "100%", height: "calc(100vh - 150px)" }}></div>
+                <div id="chartDiv" style={{ width: "100%", height: "400px" }}></div>
             </React.Fragment>
         );
     }

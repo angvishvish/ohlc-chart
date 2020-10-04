@@ -23,7 +23,8 @@ class LiveCharts extends Component {
 
     getChartData = (intervalQuery) => {
         this.clearInterval();
-        Axios.get(`/historical${intervalQuery}`).then(res => {
+        Axios.get(`/historical${intervalQuery}`)
+        .then(res => {
             this.createChart(res.data);
         });
     }
@@ -38,10 +39,8 @@ class LiveCharts extends Component {
         this.disposeChart();
         this.chart = CreateOHLCCharts();
         const liveChartData = CreateChartData(chartData);
-        // for
         let index = 0;
         const liveChartIntervalId = setInterval(() => {
-            console.log(index)
             if (liveChartData.length !== index) {
                 this.chart.addData(liveChartData[index++])
             } else {
@@ -74,12 +73,12 @@ class LiveCharts extends Component {
     render() {
         return (
             <React.Fragment>
-                <h3>Filter Interval results as per your requirement:</h3>
+                <span>Filter Interval results as per your requirement: </span>
                 <DropDownMenu
                     interval={this.state.interval}
                     handleInterval={(interval) => this.getChartData(`?interval=${interval}`, true)} />
                 {this.state.isLoading ? <h3 className="flex-center">Loading Updated Chart...</h3> : null}
-                <div id="chartDiv" style={{ width: "100%", height: "calc(100vh - 150px)" }}></div>
+                <div id="chartDiv" style={{ width: "100%", height: "400px" }}></div>
             </React.Fragment>
         );
     }

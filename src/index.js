@@ -20,8 +20,8 @@ const App = () => {
             <BrowserRouter>
                 <div className="padding-top pos-relative">
                     <Header />
-                    <Route path="/ohlc-chart" exact component={OHLCChart} />
-                    <Route path="/ohlc-chart/live-charts" component={LiveCharts} />
+                    <Route path="/" exact component={OHLCChart} />
+                    <Route path="/live-charts" component={LiveCharts} />
                 </div>
             </BrowserRouter>
         </div>
