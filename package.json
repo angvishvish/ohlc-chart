@@ -22,8 +22,7 @@
     "build": "npm run clean && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "clean": "rimraf build",
-    "deploy": "gh-pages -d build"
+    "clean": "rimraf build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -39,8 +38,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "gh-pages": "^3.1.0"
   }
 }
